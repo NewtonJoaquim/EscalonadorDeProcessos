@@ -47,7 +47,19 @@ public class Escalonador {
 		
 	}
 	
-	public void executeSJF(){}
+	public void executeSJF(){
+		Map<Process, Integer> processMap = op.SJF(this.processList);
+		
+		Iterator<Entry<Process, Integer>> it = processMap.entrySet().iterator();
+		
+		while(it.hasNext()){
+			Entry<Process, Integer> pair = it.next();
+			System.out.println("|||||||||||||||||||||||||||||");
+			System.out.println("Processo: " + pair.getKey().pID);
+			System.out.println("Tempo de Execução: " + pair.getValue());
+		}
+			
+	}
 	public void executeSJFP(){}
 	public void executeRR(){}
 	public void executePriority(){}
