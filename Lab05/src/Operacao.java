@@ -1,17 +1,15 @@
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Operacao {
 	
-	@SuppressWarnings("unchecked")
 	public Map<Process, Integer> FCFS(ArrayList<Process> proc){
 		int execTime = 0;
 		Map<Process, Integer> processMap = new LinkedHashMap<Process, Integer>();
 		
-		ArrayList<Process> sortedProcessList = sortProcessList(proc);
+		ArrayList<Process> ProcessList = proc;
+		System.out.println("teste");
 		
 		/*Collections.sort(proc, new Comparator<Process>(){
 			@Override
@@ -21,7 +19,7 @@ public class Operacao {
 			}
 		});*/
 		
-		for(Process aux : sortedProcessList){
+		for(Process aux : ProcessList){
 			execTime += aux.burstTime;
 			processMap.put(aux, execTime);
 		}
@@ -29,7 +27,7 @@ public class Operacao {
 		return processMap;
 	}
 	
-	private ArrayList<Process> sortProcessList(ArrayList<Process> proc){
+	/*private ArrayList<Process> sortProcessList(ArrayList<Process> proc){
 		int bound = Integer.MAX_VALUE;
 
 		ArrayList<Process> auxList = proc;
@@ -49,7 +47,7 @@ public class Operacao {
 		}
 		
 		return procList;
-	}
+	}*/
 	
 }
 
