@@ -37,6 +37,8 @@ public class Escalonador {
 		
 		Iterator<Entry<Process, Integer>> it = processMap.entrySet().iterator();
 		
+		System.out.println("-------------------Utilizando First Come First Served------------------");
+		
 		while(it.hasNext()){
 			Entry<Process, Integer> pair = it.next();
 			System.out.println("|||||||||||||||||||||||||||||");
@@ -44,13 +46,15 @@ public class Escalonador {
 			System.out.println("Tempo de Execução: " + pair.getValue());
 		}
 			
-		
+		op.generateReport(processMap);
 	}
 	
 	public void executeSJF(){
 		Map<Process, Integer> processMap = op.SJF(this.processList);
 		
 		Iterator<Entry<Process, Integer>> it = processMap.entrySet().iterator();
+		
+		System.out.println("-------------------Utilizando Shortest Job First------------------");
 		
 		while(it.hasNext()){
 			Entry<Process, Integer> pair = it.next();
@@ -65,6 +69,10 @@ public class Escalonador {
 	public void executePriority(){}
 	public void executePriorityP(){}
 	
+	public void printStatistics(Map<Process, Integer> processMap){
+		
+	};
+	
 	public static void main(String[] args) throws IOException{
 		CSVHandler cHandler = new CSVHandler();
 		Escalonador scheduler = new Escalonador(0.1);
@@ -72,12 +80,13 @@ public class Escalonador {
 		scheduler.insertProcesses(cHandler.readFile(args[0]));
 		
 		switch(args[1]){
-			case "RR": scheduler.executeRR();
-			case "SJF" : scheduler.executeSJF();
-			case "SJFP" : scheduler.executeSJFP();
-			case "FCFS" : scheduler.executeFCSF();
-			case "Priority" : scheduler.executePriority();
-			case "PriorityP" : scheduler.executePriorityP();
+			case "RR" : scheduler.executeRR();break;
+			case "SJF" : scheduler.executeSJF();break;
+			case "SJFP" : scheduler.executeSJFP();break;
+			case "FCFS" : scheduler.executeFCSF();break;
+			case "Priority" : scheduler.executePriority();break;
+			case "PriorityP" : scheduler.executePriorityP();break;
+			default:System.out.println("Você digitou um algoritmo inválido");
 		}
 		
 		//scheduler.listProcesses();
