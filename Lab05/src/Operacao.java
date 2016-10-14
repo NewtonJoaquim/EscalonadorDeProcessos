@@ -14,6 +14,8 @@ public class Operacao {
 		
 		ArrayList<Process> processList = proc;
 		
+		sortListByArrivalTime(processList);
+		
 		/*for(int i = 0; i<processList.size();i++){
 			if(processList.get(i).getArrivalTime() <=execTime)
 				execTime += processList.get(i).getBurstTime();
@@ -97,6 +99,21 @@ public class Operacao {
 				if(p1.getBurstTime() < p2.getBurstTime())
 					return -1;
 				if(p1.getBurstTime() > p2.getBurstTime())
+					return 1;
+				return 0;
+			}
+			
+		});
+	}
+	
+	private void sortListByArrivalTime(ArrayList<Process> proc){
+		Collections.sort(proc, new Comparator<Process>(){
+
+			@Override
+			public int compare(Process p1, Process p2) {
+				if(p1.getArrivalTime() < p2.getArrivalTime())
+					return -1;
+				if(p1.getArrivalTime() > p2.getArrivalTime())
 					return 1;
 				return 0;
 			}
