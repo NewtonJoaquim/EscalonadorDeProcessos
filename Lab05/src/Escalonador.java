@@ -32,7 +32,7 @@ public class Escalonador {
 		}
 	}
 	
-	public void executeFCSF(){
+	/*public void executeFCSF(){
 		Map<Process, Integer> processMap = op.FCFS(this.processList);
 		
 		Iterator<Entry<Process, Integer>> it = processMap.entrySet().iterator();
@@ -47,9 +47,24 @@ public class Escalonador {
 		}
 			
 		op.generateReport(processMap);
+	}*/
+	
+	public void executeFCSF(){
+		ArrayList<Process> processList = op.FCFS(this.processList);
+		
+		System.out.println("-------------------Utilizando First Come First Served------------------");
+		
+		for(Process aux : processList){
+			System.out.println("|||||||||||||||||||||||||||||");
+			System.out.println("Processo: " + aux.getpID());
+			System.out.println("Tempo de Espera: " + aux.getWaitTime());
+			System.out.println("Tempo de Execução: " + aux.getExecutionTime());
+		}
+			
+		//op.generateReport(processMap);
 	}
 	
-	public void executeSJF(){
+	/*public void executeSJF(){
 		Map<Process, Integer> processMap = op.SJF(this.processList);
 		
 		Iterator<Entry<Process, Integer>> it = processMap.entrySet().iterator();
@@ -59,11 +74,25 @@ public class Escalonador {
 		while(it.hasNext()){
 			Entry<Process, Integer> pair = it.next();
 			System.out.println("|||||||||||||||||||||||||||||");
-			System.out.println("Processo: " + pair.getKey().pID);
+			System.out.println("Processo: " + pair.getKey().getpID());
 			System.out.println("Tempo de Execução: " + pair.getValue());
 		}
 			
+	}*/
+	
+	public void executeSJF(){
+		ArrayList<Process> processList = op.SJF(this.processList);
+	
+		System.out.println("-------------------Utilizando Shortest Job First------------------");
+	
+		for(Process aux : processList){
+			System.out.println("|||||||||||||||||||||||||||||");
+			System.out.println("Processo: " + aux.getpID());
+			System.out.println("Tempo de Execução: " + aux.getExecutionTime());
+		}
+		
 	}
+	
 	public void executeSJFP(){}
 	public void executeRR(){}
 	public void executePriority(){}

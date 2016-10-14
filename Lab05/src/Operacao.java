@@ -8,9 +8,30 @@ import java.util.Map.Entry;
 
 public class Operacao {
 	
-	public Map<Process, Integer> FCFS(ArrayList<Process> proc){
+	/*public Map<Process, Integer> FCFS(ArrayList<Process> proc){
 		int execTime = 0, waitTime = 0;
 		Map<Process, Integer> processMap = new LinkedHashMap<Process, Integer>();
+		
+		ArrayList<Process> processList = proc;
+		
+		sortListByArrivalTime(processList);
+		
+		for(Process aux : processList){
+			if(execTime != 0)
+				waitTime = Math.abs(execTime - aux.getArrivalTime());
+			if(aux.getArrivalTime() <= execTime)
+				execTime += aux.getBurstTime();
+			else
+				execTime = aux.getBurstTime() + aux.getArrivalTime();
+			processMap.put(aux, execTime);
+			//System.out.println(waitTime);
+		}
+		
+		return processMap;
+	}*/
+	
+	public ArrayList<Process> FCFS(ArrayList<Process> proc){
+		int execTime = 0, waitTime = 0;
 		
 		ArrayList<Process> processList = proc;
 		
@@ -23,19 +44,20 @@ public class Operacao {
 		
 		for(Process aux : processList){
 			if(execTime != 0)
-				waitTime = execTime - aux.getArrivalTime();
+				waitTime = Math.abs(execTime - aux.getArrivalTime());
 			if(aux.getArrivalTime() <= execTime)
 				execTime += aux.getBurstTime();
 			else
 				execTime = aux.getBurstTime() + aux.getArrivalTime();
-			processMap.put(aux, execTime);
+			aux.setExecutionTime(execTime);
+			aux.setWaitTime(waitTime);
 			//System.out.println(waitTime);
 		}
 		
-		return processMap;
+		return processList;
 	}
 	
-	public Map<Process, Integer> SJF(ArrayList<Process> proc){
+	/*public Map<Process, Integer> SJF(ArrayList<Process> proc){
 		int execTime = 0;
 		Map<Process, Integer> processMap = new LinkedHashMap<Process, Integer>();
 
@@ -60,6 +82,34 @@ public class Operacao {
 		}
 		
 		return processMap;
+	}*/
+	
+	public ArrayList<Process> SJF(ArrayList<Process> proc){
+		int execTime = 0, waitTime = 0;
+		
+		ArrayList<Process> processList = proc;
+		ArrayList<Process> executedList = new ArrayList<Process>();
+		
+		sortListByBurstTime(processList);
+		
+		int i = 0;
+		boolean foundProcess;
+		while(!processList.isEmpty()){
+			foundProcess = false;
+			for(i = 0; i<processList.size(); i++){
+				if(processList.get(i).getArrivalTime() <= execTime){
+					execTime += processList.get(i).getBurstTime();
+					//processMap.put(processList.get(i), execTime);
+					processList.get(i).setExecutionTime(execTime);
+					executedList.add(processList.get(i));
+					processList.remove(processList.get(i));
+					foundProcess = true;
+				}
+			}
+			if(!foundProcess)
+				execTime++;
+		}
+		return executedList;
 	}
 	
 	public Map<Process, Integer> SJFP(ArrayList<Process> proc){

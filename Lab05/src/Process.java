@@ -1,8 +1,8 @@
 
 
 public class Process {
-	int arrivalTime, pID, burstTime, priority;
-	
+	private int arrivalTime, pID, burstTime, priority, waitTime, executionTime;
+
 	Process(int arrivalTime, int pID, int burstTime, int priority){
 		this.arrivalTime = arrivalTime;
 		this.pID = pID;
@@ -42,5 +42,20 @@ public class Process {
 		this.priority = priority;
 	}
 	
+	public int getExecutionTime() {
+		return executionTime;
+	}
+
+	public void setExecutionTime(int executionTime) {
+		this.executionTime = executionTime;
+	}
+
+	public int getWaitTime() {
+		return waitTime;
+	}
+
+	public void setWaitTime(int waitTime) {
+		this.waitTime = waitTime;
+	}
 	
 }
