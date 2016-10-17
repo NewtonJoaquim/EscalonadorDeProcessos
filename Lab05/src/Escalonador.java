@@ -94,7 +94,16 @@ public class Escalonador {
 	}
 	
 	public void executeSJFP(){}
-	public void executeRR(){}
+	public void executeRR(int quantum){
+		ArrayList<Process> processList = op.RR(this.processList, quantum);
+		
+		System.out.println("--------------------Utilizando Round-Robin-----------------------");
+		for(Process aux : processList){
+			System.out.println("|||||||||||||||||||||||||||||");
+			System.out.println("Processo: " + aux.getpID());
+			System.out.println("Tempo de Execução: " + aux.getExecutionTime());
+		}
+	}
 	public void executePriority(){}
 	public void executePriorityP(){}
 	
@@ -109,7 +118,7 @@ public class Escalonador {
 		scheduler.insertProcesses(cHandler.readFile(args[0]));
 		
 		switch(args[1]){
-			case "RR" : scheduler.executeRR();break;
+			case "RR" : scheduler.executeRR(Integer.parseInt(args[2]));break;
 			case "SJF" : scheduler.executeSJF();break;
 			case "SJFP" : scheduler.executeSJFP();break;
 			case "FCFS" : scheduler.executeFCSF();break;
