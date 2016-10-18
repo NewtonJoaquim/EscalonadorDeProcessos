@@ -1,0 +1,16 @@
+|||||||||||||||||||||||||||||
+Processo: 4
+Tempo de Espera: 0
+Tempo ao término da execução: 45
+|||||||||||||||||||||||||||||
+Processo: 3
+Tempo de Espera: 39
+Tempo ao término da execução: 113
+|||||||||||||||||||||||||||||
+Processo: 2
+Tempo de Espera: 110
+Tempo ao término da execução: 130
+|||||||||||||||||||||||||||||
+Processo: 1
+Tempo de Espera: 129
+Tempo ao término da execução: 183

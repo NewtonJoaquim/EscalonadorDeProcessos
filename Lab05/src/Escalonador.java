@@ -1,4 +1,7 @@
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
@@ -49,75 +52,96 @@ public class Escalonador {
 		op.generateReport(processMap);
 	}*/
 	
-	public void executeFCSF(){
+	public void executeFCSF(int arg){
 		ArrayList<Process> processList = op.FCFS(this.processList);
 		
 		System.out.println("-------------------Utilizando First Come First Served------------------");
-		printInfo(processList);
+		if(arg == 1){
+			op.generateReport(processList);
+		}
+		else if(arg == 2)
+			writeInfo(processList);
+		else
+			System.out.println("Argumento inválido");
 		//op.generateReport(processMap);
 	}
 	
-	/*public void executeSJF(){
-		Map<Process, Integer> processMap = op.SJF(this.processList);
-		
-		Iterator<Entry<Process, Integer>> it = processMap.entrySet().iterator();
-		
-		System.out.println("-------------------Utilizando Shortest Job First------------------");
-		
-		while(it.hasNext()){
-			Entry<Process, Integer> pair = it.next();
-			System.out.println("|||||||||||||||||||||||||||||");
-			System.out.println("Processo: " + pair.getKey().getpID());
-			System.out.println("Tempo de Execução: " + pair.getValue());
-		}
-			
-	}*/
-	
-	public void executeSJF(){
+	public void executeSJF(int arg){
 		ArrayList<Process> processList = op.SJF(this.processList);
 	
 		System.out.println("-------------------Utilizando Shortest Job First------------------");
-		printInfo(processList);
+		if(arg == 1){
+			op.generateReport(processList);
+		}
+		else if(arg == 2)
+			writeInfo(processList);
+		else
+			System.out.println("Argumento inválido");
 		
 	}
 	
-	public void executeSJFP(){
+	public void executeSJFP(int arg){
 		ArrayList<Process> processList = op.SJFP(this.processList);
 		
 		System.out.println("--------------------Utilizand Shortest Job First Preemptivo-----------------------");
-		printInfo(processList);
+		if(arg == 1){
+			op.generateReport(processList);
+		}
+		else if(arg == 2)
+			writeInfo(processList);
+		else
+			System.out.println("Argumento inválido");
 	}
 	
-	public void executeRR(int quantum){
+	public void executeRR(int quantum, int arg){
 		ArrayList<Process> processList = op.RR(this.processList, quantum);
 		
 		System.out.println("--------------------Utilizando Round-Robin-----------------------");
-		printInfo(processList);
+		if(arg == 1){
+			op.generateReport(processList);
+		}
+		else if(arg == 2)
+			writeInfo(processList);
+		else
+			System.out.println("Argumento inválido");
 	}
-	public void executePriority(){
+	public void executePriority(int arg){
 		ArrayList<Process> processList = op.Priority(this.processList);
 		
 		System.out.println("--------------------Utilizando Priority-----------------------");
-		printInfo(processList);
+		if(arg == 1){
+			op.generateReport(processList);
+		}
+		else if(arg == 2)
+			writeInfo(processList);
+		else
+			System.out.println("Argumento inválido");
 	}
-	public void executePriorityP(){
+	public void executePriorityP(int arg){
 		ArrayList<Process> processList = op.PriorityP(this.processList);
 		
 		System.out.println("--------------------Utilizando Priority Preemptivo-----------------------");
-		printInfo(processList);
+		if(arg == 1){
+			op.generateReport(processList);
+		}
+		else if(arg == 2)
+			writeInfo(processList);
+		else
+			System.out.println("Argumento inválido");
 	}
 	
-	public void printStatistics(Map<Process, Integer> processMap){
-		
-	};
-	
-	private void printInfo(ArrayList<Process> processList){
-		for(Process aux : processList){
-			System.out.println("|||||||||||||||||||||||||||||");
-			System.out.println("Processo: " + aux.getpID());
-			System.out.println("Tempo de Espera: " + aux.getWaitTime());
-			System.out.println("Tempo ao término da execução: " + aux.getExecutionTime());
-		}
+	private void writeInfo(ArrayList<Process> processList){
+		try {
+			PrintWriter writer = new PrintWriter("processosResultado.txt", "UTF-8");
+			for(Process aux : processList){
+				writer.println("|||||||||||||||||||||||||||||");
+				writer.println("Processo: " + aux.getpID());
+				writer.println("Tempo de Espera: " + aux.getWaitTime());
+				writer.println("Tempo ao término da execução: " + aux.getExecutionTime());
+			}
+			writer.close();
+		}catch (FileNotFoundException | UnsupportedEncodingException e) {}
+		System.out.println("Resultado gravado no arquivo processosResultado.txt");
 	}
 	
 	public static void main(String[] args) throws IOException{
@@ -127,12 +151,12 @@ public class Escalonador {
 		scheduler.insertProcesses(cHandler.readFile(args[0]));
 		
 		switch(args[1]){
-			case "RR" : scheduler.executeRR(Integer.parseInt(args[2]));break;
-			case "SJF" : scheduler.executeSJF();break;
-			case "SJFP" : scheduler.executeSJFP();break;
-			case "FCFS" : scheduler.executeFCSF();break;
-			case "Priority" : scheduler.executePriority();break;
-			case "PriorityP" : scheduler.executePriorityP();break;
+			case "RR" : scheduler.executeRR(Integer.parseInt(args[2]), Integer.parseInt(args[3]));break;
+			case "SJF" : scheduler.executeSJF(Integer.parseInt(args[3]));break;
+			case "SJFP" : scheduler.executeSJFP(Integer.parseInt(args[3]));break;
+			case "FCFS" : scheduler.executeFCSF(Integer.parseInt(args[3]));break;
+			case "Priority" : scheduler.executePriority(Integer.parseInt(args[3]));break;
+			case "PriorityP" : scheduler.executePriorityP(Integer.parseInt(args[3]));break;
 			default:System.out.println("Você digitou um algoritmo inválido");
 		}
 		

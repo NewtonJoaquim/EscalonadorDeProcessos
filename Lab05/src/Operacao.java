@@ -4,7 +4,15 @@ import java.util.Comparator;
 
 public class Operacao {
 	
+	private int totalTime, numberOfRunningProcesses, numberOfRunningProcessesPerQueue, contextSwitch;
+	private double usagePercent, averageThroughput, averageTurnAround, averageWaitTime, averageAnswerTime, averageContextSwitch;
+	
+	Operacao(){
+		this.contextSwitch = 0;
+	}
+	
 	public ArrayList<Process> FCFS(ArrayList<Process> proc){
+		this.contextSwitch = 0;
 		int execTime = 0, waitTime = 0;
 		
 		ArrayList<Process> processList = proc;
@@ -20,6 +28,7 @@ public class Operacao {
 				execTime = aux.getBurstTime() + aux.getArrivalTime();
 			aux.setExecutionTime(execTime);
 			aux.setWaitTime(waitTime);
+			this.contextSwitch++;
 		}
 		
 		return processList;
@@ -54,6 +63,7 @@ public class Operacao {
 	}*/
 	
 	public ArrayList<Process> SJF(ArrayList<Process> proc){
+		this.contextSwitch = 0;
 		int execTime = 0, waitTime = 0;
 		
 		ArrayList<Process> processList = proc;
@@ -74,6 +84,7 @@ public class Operacao {
 					processList.get(i).setWaitTime(waitTime);
 					executedList.add(processList.get(i));
 					processList.remove(processList.get(i));
+					this.contextSwitch++;
 					foundProcess = true;
 				}
 			}
@@ -84,7 +95,8 @@ public class Operacao {
 	}
 	
 	public ArrayList<Process> SJFP(ArrayList<Process> proc){
-		int execTime = 0, waitTime = 0;
+		this.contextSwitch = 0;
+		int execTime = 0;
 
 		Process prevProcess;
 
@@ -139,6 +151,7 @@ public class Operacao {
 	}
 	
 	public ArrayList<Process> Priority(ArrayList<Process> proc){
+		this.contextSwitch = 0;
 		int execTime = 0;
 		int waitTime = 0;
 		
@@ -155,12 +168,14 @@ public class Operacao {
 				execTime = aux.getBurstTime() + aux.getArrivalTime();
 			aux.setExecutionTime(execTime);
 			aux.setWaitTime(waitTime);
+			this.contextSwitch++;
 		}
 		
 		return processList;
 	}
 	
 	public ArrayList<Process> PriorityP(ArrayList<Process> proc){
+		this.contextSwitch = 0;
 		int execTime = 0, waitTime = 0;
 
 		Process prevProcess;
@@ -184,6 +199,7 @@ public class Operacao {
 						if(processList.get(i).getPriority() < processList.get(0).getPriority()){
 							waitList.get(0).setInterruped(true);
 							waitList.get(0).setInterruptedExecutionTime(execTime);
+							this.contextSwitch++;
 						}
 					}
 				}
@@ -216,38 +232,33 @@ public class Operacao {
 	}
 	
 	public ArrayList<Process> RR(ArrayList<Process> proc, int quantum){
+		this.contextSwitch = 0;
 		int execTime = 0;
 		
 		ArrayList<Process> processList = proc;
-		ArrayList<Process> executionList = new ArrayList<Process>();
+		ArrayList<Process> executedList = new ArrayList<Process>();
 		
-		//sortListByArrivalTime(processList);
+		Process aux = null;
 		
-		int i = 0;
 		while(!processList.isEmpty()){
-			for(i = 0; i<processList.size(); i++){
-				
-				Process actualProcess = processList.get(i);
-				
-				if(actualProcess.getBurstTime() > quantum){
-					if(actualProcess.getArrivalTime() > execTime)
-						execTime += (actualProcess.getArrivalTime()-execTime) + quantum;
-					else
-						execTime += quantum;
-					actualProcess.setExecutionTime(execTime);
-					actualProcess.setBurstTime(actualProcess.getBurstTime() - quantum);
-					executionList.add(actualProcess);
-				}
-				else{
-					execTime += actualProcess.getBurstTime();
-					actualProcess.setExecutionTime(execTime);
-					executionList.add(actualProcess);
-					processList.remove(actualProcess);	
-				}
-				}
+			
+			aux = processList.remove(0);
+			
+			if(aux.getBurstTime() <= quantum){
+				execTime += aux.getBurstTime();
+				aux.setExecutionTime(execTime);
+				aux.setWaitTime(execTime - aux.getArrivalTime());
+				executedList.add(aux);
 			}
-		return executionList;
-		//return processList;
+			else{
+				execTime += quantum;
+				aux.setBurstTime(aux.getBurstTime() - quantum);
+				processList.add(aux);
+			}
+			this.contextSwitch++;
+		}
+			
+		return executedList;
 	}
 	
 	private void sortListByBurstTime(ArrayList<Process> proc){
@@ -296,11 +307,20 @@ public class Operacao {
 	}
 	
 	public void generateReport(ArrayList<Process> processList){
-		int totalTime = 0, numberOfRunningProcesses, numberOfRunningProcessesPerQueue;
-		double usagePercent, averageThroughput, averageTurnAround, averageWaitTime, averageAnswerTime, averageContextSwitch;
+		this.averageTurnAround = 0;
+		this.averageWaitTime = 0;
+		for(Process p : processList){
+			averageWaitTime += p.getWaitTime();
+			averageTurnAround +=p.getExecutionTime();
+		}
+		averageWaitTime = averageWaitTime/processList.size();
+		averageTurnAround = averageTurnAround/processList.size();
 		
-		System.out.println("Tempo total de Execução: " +processList.get(processList.size() -1).getExecutionTime());
-		
+		System.out.println("Tempo total de Execução: " +processList.get(processList.size()-1).getExecutionTime());
+		System.out.println("Throughput : 1");
+		System.out.println("Turnaround: " + averageTurnAround);
+		System.out.println("Média do tempo de Espera: " + averageWaitTime); 
+		System.out.println("Número de processos executados: " + processList.size());
 	}
 }
 
