@@ -35,23 +35,6 @@ public class Escalonador {
 		}
 	}
 	
-	/*public void executeFCSF(){
-		Map<Process, Integer> processMap = op.FCFS(this.processList);
-		
-		Iterator<Entry<Process, Integer>> it = processMap.entrySet().iterator();
-		
-		System.out.println("-------------------Utilizando First Come First Served------------------");
-		
-		while(it.hasNext()){
-			Entry<Process, Integer> pair = it.next();
-			System.out.println("|||||||||||||||||||||||||||||");
-			System.out.println("Processo: " + pair.getKey().pID);
-			System.out.println("Tempo de Execução: " + pair.getValue());
-		}
-			
-		op.generateReport(processMap);
-	}*/
-	
 	public void executeFCSF(int arg){
 		ArrayList<Process> processList = op.FCFS(this.processList);
 		

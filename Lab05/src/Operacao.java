@@ -119,6 +119,7 @@ public class Operacao {
 						if(processList.get(i).getBurstTime() < processList.get(0).getBurstTime()){
 							waitList.get(0).setInterruped(true);
 							waitList.get(0).setInterruptedExecutionTime(execTime - 1);
+							this.contextSwitch++;
 						}
 					}
 				}
@@ -308,6 +309,7 @@ public class Operacao {
 	
 	public void generateReport(ArrayList<Process> processList){
 		this.averageTurnAround = 0;
+		this.averageContextSwitch = contextSwitch/processList.size();
 		this.averageWaitTime = 0;
 		for(Process p : processList){
 			averageWaitTime += p.getWaitTime();
@@ -320,6 +322,7 @@ public class Operacao {
 		System.out.println("Throughput : 1");
 		System.out.println("Turnaround: " + averageTurnAround);
 		System.out.println("Média do tempo de Espera: " + averageWaitTime); 
+		System.out.println("Média da troca de contexto: " + averageContextSwitch);
 		System.out.println("Número de processos executados: " + processList.size());
 	}
 }
