@@ -53,14 +53,7 @@ public class Escalonador {
 		ArrayList<Process> processList = op.FCFS(this.processList);
 		
 		System.out.println("-------------------Utilizando First Come First Served------------------");
-		
-		for(Process aux : processList){
-			System.out.println("|||||||||||||||||||||||||||||");
-			System.out.println("Processo: " + aux.getpID());
-			System.out.println("Tempo de Espera: " + aux.getWaitTime());
-			System.out.println("Tempo de Execução: " + aux.getExecutionTime());
-		}
-			
+		printInfo(processList);
 		//op.generateReport(processMap);
 	}
 	
@@ -84,32 +77,48 @@ public class Escalonador {
 		ArrayList<Process> processList = op.SJF(this.processList);
 	
 		System.out.println("-------------------Utilizando Shortest Job First------------------");
-	
-		for(Process aux : processList){
-			System.out.println("|||||||||||||||||||||||||||||");
-			System.out.println("Processo: " + aux.getpID());
-			System.out.println("Tempo de Execução: " + aux.getExecutionTime());
-		}
+		printInfo(processList);
 		
 	}
 	
-	public void executeSJFP(){}
+	public void executeSJFP(){
+		ArrayList<Process> processList = op.SJFP(this.processList);
+		
+		System.out.println("--------------------Utilizand Shortest Job First Preemptivo-----------------------");
+		printInfo(processList);
+	}
+	
 	public void executeRR(int quantum){
 		ArrayList<Process> processList = op.RR(this.processList, quantum);
 		
 		System.out.println("--------------------Utilizando Round-Robin-----------------------");
-		for(Process aux : processList){
-			System.out.println("|||||||||||||||||||||||||||||");
-			System.out.println("Processo: " + aux.getpID());
-			System.out.println("Tempo de Execução: " + aux.getExecutionTime());
-		}
+		printInfo(processList);
 	}
-	public void executePriority(){}
-	public void executePriorityP(){}
+	public void executePriority(){
+		ArrayList<Process> processList = op.Priority(this.processList);
+		
+		System.out.println("--------------------Utilizando Priority-----------------------");
+		printInfo(processList);
+	}
+	public void executePriorityP(){
+		ArrayList<Process> processList = op.PriorityP(this.processList);
+		
+		System.out.println("--------------------Utilizando Priority Preemptivo-----------------------");
+		printInfo(processList);
+	}
 	
 	public void printStatistics(Map<Process, Integer> processMap){
 		
 	};
+	
+	private void printInfo(ArrayList<Process> processList){
+		for(Process aux : processList){
+			System.out.println("|||||||||||||||||||||||||||||");
+			System.out.println("Processo: " + aux.getpID());
+			System.out.println("Tempo de Espera: " + aux.getWaitTime());
+			System.out.println("Tempo ao término da execução: " + aux.getExecutionTime());
+		}
+	}
 	
 	public static void main(String[] args) throws IOException{
 		CSVHandler cHandler = new CSVHandler();
